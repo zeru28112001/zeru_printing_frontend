@@ -64,24 +64,27 @@ export default function HomePage() {
   const [isAdminInquiryOpen, setIsAdminInquiryOpen] = useState(false);
   const [completedOrder, setCompletedOrder] = useState<Order | null>(null);
 
-  // Fetch initial data from backend API
+  const [isDatabaseLive, setIsDatabaseLive] = useState(false);
+
+  // Fetch dynamic data from backend MongoDB database
   useEffect(() => {
-    fetchProducts().then((data) => {
-      if (data && data.length > 0) {
-        setProducts(data);
-        setSelectedProduct(data[0]);
-        if (data[0].colors && data[0].colors.length > 0) {
-          setSelectedColor(data[0].colors[0]);
+    fetchProducts().then((res) => {
+      if (res.data && res.data.length > 0) {
+        setProducts(res.data);
+        setSelectedProduct(res.data[0]);
+        if (res.data[0].colors && res.data[0].colors.length > 0) {
+          setSelectedColor(res.data[0].colors[0]);
         }
       }
+      setIsDatabaseLive(res.isLive);
     });
 
-    fetchPlacements().then((data) => {
-      if (data && data.length > 0) setPlacements(data);
+    fetchPlacements().then((res) => {
+      if (res.data && res.data.length > 0) setPlacements(res.data);
     });
 
-    fetchPaymentSettings().then((data) => {
-      if (data) setSettings(data);
+    fetchPaymentSettings().then((res) => {
+      if (res.data) setSettings(res.data);
     });
   }, []);
 
@@ -133,9 +136,25 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-gradient-to-b from-white via-rose-50/20 to-slate-50 border-b border-slate-200/80 pt-10 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7 space-y-5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-200/80 text-rose-700 text-xs font-bold">
-              <Flame className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
-              <span>Direct-to-Film (DTF) Apparel Specialist • Yangon, Myanmar</span>
+            <div className="flex items-center gap-2 flex-wrap">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-200/80 text-rose-700 text-xs font-bold">
+                <Flame className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
+                <span>Direct-to-Film (DTF) Apparel Specialist • Yangon, Myanmar</span>
+              </div>
+              <div
+                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold border ${
+                  isDatabaseLive
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                    : 'bg-amber-50 border-amber-200 text-amber-700'
+                }`}
+              >
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    isDatabaseLive ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
+                  }`}
+                />
+                <span>{isDatabaseLive ? 'MongoDB Live Connected' : 'Connecting to Database...'}</span>
+              </div>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
