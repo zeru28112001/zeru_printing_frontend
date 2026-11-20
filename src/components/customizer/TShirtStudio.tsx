@@ -101,28 +101,28 @@ export function TShirtStudio({
     switch (code) {
       // FRONT ZONES
       case 'full_front':
-        return { top: '24%', left: '27%', width: '46%', height: '52%' };
+        return { top: '24%', left: '26%', width: '48%', height: '52%' };
       case 'left_chest':
-        return { top: '24%', left: '57%', width: '18%', height: '18%' };
+        return { top: '24%', left: '55%', width: '17%', height: '15%' };
       case 'center_chest':
-        return { top: '26%', left: '33%', width: '34%', height: '18%' };
+        return { top: '25%', left: '32%', width: '36%', height: '15%' };
       case 'sleeves_left':
-        return { top: '30%', left: '10%', width: '14%', height: '18%' };
+        return { top: '27%', left: '77%', width: '16%', height: '16%' };
       case 'sleeves_right':
-        return { top: '30%', left: '76%', width: '14%', height: '18%' };
+        return { top: '27%', left: '7%', width: '16%', height: '16%' };
 
       // BACK ZONES
       case 'full_back':
-        return { top: '24%', left: '27%', width: '46%', height: '52%' };
+        return { top: '22%', left: '26%', width: '48%', height: '52%' };
       case 'back_collar':
-        return { top: '15%', left: '41%', width: '18%', height: '10%' };
+        return { top: '13%', left: '41%', width: '18%', height: '9%' };
       case 'upper_back':
-        return { top: '22%', left: '30%', width: '40%', height: '16%' };
+        return { top: '19%', left: '28%', width: '44%', height: '15%' };
       case 'neck_label':
-        return { top: '12%', left: '43%', width: '14%', height: '8%' };
+        return { top: '9%', left: '42%', width: '16%', height: '8%' };
 
       default:
-        return { top: '25%', left: '25%', width: '50%', height: '50%' };
+        return { top: '24%', left: '26%', width: '48%', height: '50%' };
     }
   };
 
@@ -201,18 +201,18 @@ export function TShirtStudio({
                     : 'drop-shadow(0 25px 30px rgba(0, 0, 0, 0.2))',
               }}
             >
-              {/* Garment Base Outline (Realistic T-Shirt Silhouette) */}
-              <g fill={selectedColor.hex} stroke="#334155" strokeWidth="2" strokeLinejoin="round">
+              {/* Garment Base Outline (Realistic Boxy T-Shirt Silhouette) */}
+              <g fill={selectedColor.hex} stroke="#334155" strokeWidth="2.5" strokeLinejoin="round">
                 {currentSide === 'FRONT' ? (
                   // Front Silhouette
                   <path
-                    d="M175,45 C205,75 295,75 325,45 L415,95 L375,185 L320,165 L320,490 C320,500 310,505 300,505 L200,505 C190,505 180,500 180,490 L180,165 L125,185 L85,95 Z"
+                    d="M190,65 C215,115 285,115 310,65 L425,115 L465,235 L390,275 C378,255 372,246 385,245 L385,490 C385,496 380,498 375,498 L125,498 C120,498 115,496 115,490 L115,245 C128,246 122,255 110,275 L35,235 L75,115 Z"
                     className="transition-colors duration-300"
                   />
                 ) : (
                   // Back Silhouette (Higher collar neckline)
                   <path
-                    d="M175,45 C210,55 290,55 325,45 L415,95 L375,185 L320,165 L320,490 C320,500 310,505 300,505 L200,505 C190,505 180,500 180,490 L180,165 L125,185 L85,95 Z"
+                    d="M190,65 C220,80 280,80 310,65 L425,115 L465,235 L390,275 C378,255 372,246 385,245 L385,490 C385,496 380,498 375,498 L125,498 C120,498 115,496 115,490 L115,245 C128,246 122,255 110,275 L35,235 L75,115 Z"
                     className="transition-colors duration-300"
                   />
                 )}
@@ -221,28 +221,26 @@ export function TShirtStudio({
               {/* Collar Ribbing & Fold Details */}
               {currentSide === 'FRONT' ? (
                 <path
-                  d="M175,45 C205,75 295,75 325,45 C295,65 205,65 175,45 Z"
-                  fill="none"
-                  stroke={selectedColor.hex === '#FFFFFF' ? '#cbd5e1' : '#000000'}
-                  strokeWidth="3"
-                  opacity="0.4"
+                  d="M190,65 C215,115 285,115 310,65 C285,76 215,76 190,65 Z"
+                  fill={selectedColor.hex === '#FFFFFF' ? '#f1f5f9' : 'rgba(0,0,0,0.15)'}
+                  stroke={selectedColor.hex === '#FFFFFF' ? '#94a3b8' : '#1e293b'}
+                  strokeWidth="1.5"
                 />
               ) : (
                 <path
-                  d="M175,45 C210,55 290,55 325,45 C290,50 210,50 175,45 Z"
-                  fill="none"
-                  stroke={selectedColor.hex === '#FFFFFF' ? '#cbd5e1' : '#000000'}
-                  strokeWidth="3"
-                  opacity="0.4"
+                  d="M190,65 C220,80 280,80 310,65 C285,72 215,72 190,65 Z"
+                  fill={selectedColor.hex === '#FFFFFF' ? '#f1f5f9' : 'rgba(0,0,0,0.15)'}
+                  stroke={selectedColor.hex === '#FFFFFF' ? '#94a3b8' : '#1e293b'}
+                  strokeWidth="1.5"
                 />
               )}
 
               {/* Sleeve Seams */}
-              <line x1="175" y1="45" x2="180" y2="165" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.5" />
-              <line x1="325" y1="45" x2="320" y2="165" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.5" />
+              <line x1="190" y1="65" x2="115" y2="245" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
+              <line x1="310" y1="65" x2="385" y2="245" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
 
               {/* Hem Seam */}
-              <line x1="185" y1="495" x2="315" y2="495" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.4" />
+              <line x1="117" y1="486" x2="383" y2="486" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 2" opacity="0.5" />
             </svg>
 
             {/* Print Placement Bounding Zones & Overlays */}
