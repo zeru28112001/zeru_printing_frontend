@@ -62,6 +62,7 @@ export default function AdminPage() {
   const [statusFilter, setStatusFilter] = useState<string>('');
   const [isLoadingOrders, setIsLoadingOrders] = useState(false);
   const [selectedSlipUrl, setSelectedSlipUrl] = useState<string | null>(null);
+  const [selectedArtwork, setSelectedArtwork] = useState<{ url: string; title: string } | null>(null);
 
   // Products State
   const [products, setProducts] = useState<Product[]>([]);
@@ -474,18 +475,32 @@ export default function AdminPage() {
                             </div>
                             {it.placements && it.placements.length > 0 && (
                               <div className="mt-2 pt-1 border-t border-slate-200/50 flex flex-wrap gap-2">
-                                {it.placements.map((p, pIdx) => (
-                                  <a
-                                    key={pIdx}
-                                    href={p.artworkDriveWebViewLink || p.artworkUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-600 hover:text-rose-700 bg-white px-2 py-0.5 rounded border border-rose-200"
-                                  >
-                                    <Download className="w-3 h-3" />
-                                    <span>{p.placementName} Artwork</span>
-                                  </a>
-                                ))}
+                                {it.placements.map((p, pIdx) => {
+                                  const artLink = p.artworkDriveWebViewLink || p.artworkUrl;
+                                  return (
+                                    <div key={pIdx} className="inline-flex items-center gap-1 bg-white px-2 py-1 rounded-lg border border-rose-200 shadow-2xs">
+                                      <button
+                                        type="button"
+                                        onClick={() => setSelectedArtwork({ url: artLink, title: `${it.productName} — ${p.placementName} Artwork` })}
+                                        className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-600 hover:text-rose-700"
+                                      >
+                                        <Eye className="w-3 h-3 text-rose-500" />
+                                        <span>{p.placementName} Artwork</span>
+                                      </button>
+                                      <span className="text-slate-300">|</span>
+                                      <a
+                                        href={artLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        download
+                                        className="text-slate-400 hover:text-slate-700 p-0.5 rounded hover:bg-slate-50 transition-colors"
+                                        title="Direct download file"
+                                      >
+                                        <Download className="w-3 h-3" />
+                                      </a>
+                                    </div>
+                                  );
+                                })}
                               </div>
                             )}
                           </div>
@@ -966,6 +981,56 @@ export default function AdminPage() {
             <div className="flex justify-end">
               <a href={selectedSlipUrl} target="_blank" rel="noopener noreferrer" className="text-xs font-bold text-rose-600 hover:underline">
                 Open in new tab
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Artwork Preview & Download Modal Popup */}
+      {selectedArtwork && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-5 overflow-hidden shadow-2xl space-y-4">
+            <div className="flex justify-between items-center pb-2 border-b border-slate-100">
+              <div>
+                <h4 className="font-bold text-sm text-slate-900">
+                  {selectedArtwork.title}
+                </h4>
+                <p className="text-[11px] text-slate-500">
+                  High-resolution customer DTF print file
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedArtwork(null)}
+                className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="max-h-[60vh] min-h-[200px] overflow-auto rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-center p-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={selectedArtwork.url}
+                alt={selectedArtwork.title}
+                className="max-w-full max-h-[55vh] h-auto object-contain drop-shadow"
+              />
+            </div>
+
+            <div className="flex items-center justify-between pt-1">
+              <span className="text-[11px] text-slate-400 truncate max-w-xs" title={selectedArtwork.url}>
+                {selectedArtwork.url}
+              </span>
+              <a
+                href={selectedArtwork.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-xs transition-colors"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Download Artwork File</span>
               </a>
             </div>
           </div>
