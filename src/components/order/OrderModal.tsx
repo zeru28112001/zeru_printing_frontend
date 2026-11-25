@@ -52,7 +52,7 @@ export function OrderModal({
   const [viberOrTelegram, setViberOrTelegram] = useState('');
   const [notes, setNotes] = useState('');
 
-  const [paymentMethod, setPaymentMethod] = useState<'KBZPAY' | 'WAVEPAY'>('KBZPAY');
+  const [paymentMethod] = useState<'KBZPAY'>('KBZPAY');
   const [slipFile, setSlipFile] = useState<File | null>(null);
   const [slipPreview, setSlipPreview] = useState<string | null>(null);
 
@@ -389,55 +389,35 @@ export function OrderModal({
               <span>Payment: Transfer 1/3 Deposit ({depositRequiredMmk.toLocaleString()} Ks)</span>
             </h4>
 
-            {/* Payment Method Switcher */}
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setPaymentMethod('KBZPAY')}
-                className={`p-3 rounded-xl border text-left flex items-center gap-3 transition-all ${
-                  paymentMethod === 'KBZPAY'
-                    ? 'border-blue-500 bg-blue-50/50 ring-1 ring-blue-500 text-blue-900'
-                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                }`}
-              >
-                <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-black text-xs">
+            {/* KBZPay Payment Card (Single Official Payment Method) */}
+            <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-200 text-xs text-blue-950 space-y-2">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-sm shadow-xs">
                   KP
                 </div>
                 <div>
-                  <span className="font-bold text-xs block">KBZPay</span>
-                  <span className="text-[11px] text-slate-500">{settings.kbzPayPhone || '09798765432'}</span>
+                  <span className="font-extrabold text-sm block text-blue-900">KBZPay Mobile Banking</span>
+                  <span className="text-[11px] text-blue-700">Official Payment Gateway</span>
                 </div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setPaymentMethod('WAVEPAY')}
-                className={`p-3 rounded-xl border text-left flex items-center gap-3 transition-all ${
-                  paymentMethod === 'WAVEPAY'
-                    ? 'border-amber-500 bg-amber-50/50 ring-1 ring-amber-500 text-amber-900'
-                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                }`}
-              >
-                <div className="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-black text-xs">
-                  WP
+              </div>
+              <div className="border-t border-blue-200/60 pt-2 space-y-1">
+                <p className="flex justify-between">
+                  <span className="text-blue-700 font-medium">Account Name:</span>
+                  <strong className="text-blue-950">{settings.kbzPayAccountName || 'Zeru Printing Service'}</strong>
+                </p>
+                <p className="flex justify-between">
+                  <span className="text-blue-700 font-medium">KBZPay Phone / Account:</span>
+                  <strong className="text-blue-950 font-mono tracking-wide">{settings.kbzPayPhone || '09798765432'}</strong>
+                </p>
+              </div>
+              {settings.kbzPayQrUrl && (
+                <div className="pt-2 flex justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={settings.kbzPayQrUrl} alt="KBZPay QR Code" className="w-36 h-36 rounded-xl border border-blue-300 object-contain shadow-xs bg-white p-1" />
                 </div>
-                <div>
-                  <span className="font-bold text-xs block">WavePay</span>
-                  <span className="text-[11px] text-slate-500">{settings.wavePayPhone || '09798765432'}</span>
-                </div>
-              </button>
-            </div>
-
-            {/* Mobile Banking Info Card */}
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1">
-              <p>
-                <strong>Account Name:</strong> {paymentMethod === 'KBZPAY' ? settings.kbzPayAccountName || 'Zeru Printing' : settings.wavePayAccountName || 'Zeru Printing'}
-              </p>
-              <p>
-                <strong>Account / Phone:</strong> {paymentMethod === 'KBZPAY' ? settings.kbzPayPhone || '09798765432' : settings.wavePayPhone || '09798765432'}
-              </p>
-              <p className="text-[11px] text-slate-500 pt-1">
-                Please transfer exactly <strong>{depositRequiredMmk.toLocaleString()} Ks</strong> and attach your transfer screenshot below.
+              )}
+              <p className="text-[11px] text-blue-700/90 pt-1 text-center bg-white/60 p-1.5 rounded-lg border border-blue-100">
+                Please transfer exactly <strong>{depositRequiredMmk.toLocaleString()} Ks</strong> via KBZPay and upload your receipt screenshot below.
               </p>
             </div>
 

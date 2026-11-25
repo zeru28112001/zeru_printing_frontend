@@ -2,9 +2,16 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Shirt, Sparkles, Search, ShieldCheck } from 'lucide-react';
 
 export function Navbar() {
+  const pathname = usePathname();
+
+  // Hide customer navbar on all admin routes
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -26,7 +33,7 @@ export function Navbar() {
         {/* Navigation Links */}
         <nav className="flex items-center gap-1 sm:gap-2">
           <Link
-            href="/#customizer"
+            href="/customizer"
             className="flex items-center gap-1.5 px-3.5 py-2 text-sm font-semibold rounded-lg text-slate-700 hover:text-rose-600 hover:bg-rose-50 transition-colors"
           >
             <Sparkles className="w-4 h-4 text-rose-500" />

@@ -148,3 +148,17 @@ export interface StoreSettings {
   adminViberPhone?: string;
   adminTelegramUsername?: string;
 }
+
+export interface PaymentMethodEntity {
+  id: string;
+  code: string;
+  name: string;
+  type: 'MOBILE_WALLET' | 'BANK_TRANSFER' | 'DIRECT_QR' | 'CASH';
+  accountName: string;
+  accountNumber: string;
+  bankBranch?: string;
+  qrCodeImageUrl?: string;
+  instructions?: string;
+  isActive: boolean;
+  displayOrder: number;
+}

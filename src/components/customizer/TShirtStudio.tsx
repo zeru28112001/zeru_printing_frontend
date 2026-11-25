@@ -442,7 +442,7 @@ export function TShirtStudio({
                     className="w-full p-3 rounded-xl border border-dashed border-purple-300 bg-purple-50/60 hover:bg-purple-100/70 text-purple-900 text-xs font-bold flex items-center justify-center gap-2 transition-colors"
                   >
                     <MessageSquare className="w-4 h-4 text-purple-600" />
-                    <span>Want another placement? Contact Admin Team</span>
+                    <span>Need a custom print placement? Contact Support Team</span>
                   </button>
                 </div>
               </div>
